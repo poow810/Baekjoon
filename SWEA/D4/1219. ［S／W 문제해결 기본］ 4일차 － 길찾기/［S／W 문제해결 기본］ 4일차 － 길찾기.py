@@ -1,40 +1,29 @@
-for _ in range(10):
-    t, road = map(int, input().split())
-    lst = list(map(int, input().split()))
-    mp = [[] for _ in range(100)]
-    for i in range(road):
-        n1, n2 = lst[i*2], lst[i*2+1]
-        mp[n1].append(n2)
-        mp[n2].append(n1)
-    
-    start = 0
+def dfs(start, end):
 
-    def dfs(start):
+    stack = [start]
+    visited[start] = 1
 
+    while stack:
+        cur = stack.pop()
 
-        stack = [start]
-        visited = [0] * (100)
-        while stack:
-            count = 0
-            current = stack.pop()
-            if visited[current] == 1:
-                continue
+        if visited[cur] == 0:
+            visited[cur] = 1
 
-            if visited[current] == 0:
-                visited[current] = 1
-
-            for i in reversed(mp[current]):
-                if visited[i] == 0:
-                    stack.append(i)
-                    count += 1
-                
-                if count >= 2:
-                    break
-            
-        if visited[99] == 1:
+        for i in mp[cur]:
+            if visited[i] == 0:
+                stack.append(i)
+        
+        if end == cur:
             return 1
-        else:
-            return 0
+    return 0
 
 
-    print(f"#{t}", dfs(0))
+for t in range(10):
+    N, M = map(int, input().split())
+    lst = list(map(int, input().split())) # V : 노드 개수 E : 간선 개수
+    mp = [[] for _ in range(101)]
+    visited = [0] * (101)
+    for i in range(M):
+        a, b = lst[i*2], lst[i*2+1]
+        mp[a].append(b)
+    print(f"#{t+1}", dfs(0, 99))
