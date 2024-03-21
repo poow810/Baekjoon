@@ -2,6 +2,7 @@ import sys
 from collections import deque
 
 def is_valid(nx, ny):
+    
     if nx < 0:
         nx = N - 1
     elif nx >= N:
@@ -11,11 +12,7 @@ def is_valid(nx, ny):
         ny = M - 1
     elif ny >= M:
         ny = 0
-    
-    if nx < 0 and ny < 0:
-        nx, ny = N - 1, M - 1
-    elif nx >= M and ny >= M:
-        nx, ny = 0, 0
+
     return nx, ny
 
 def bfs(x, y):
@@ -26,11 +23,11 @@ def bfs(x, y):
     while queue:
         x, y, string = queue.popleft()
 
-        if len(string) > 5:
-            continue
-
         if string in dic:
             dic[string] += 1
+        
+        if len(string) >= 5:
+            continue
 
         for i in range(8):
             nx = x + dx[i]
@@ -42,7 +39,7 @@ def bfs(x, y):
 
 N, M, K = map(int, sys.stdin.readline().split())
 mp = [list(map(str, sys.stdin.readline().strip())) for _ in range(N)]
-dic = {}
+dic = dict()
 dx = [-1, 1, 0, 0, -1, -1, 1, 1]
 dy = [0, 0, -1, 1, -1, 1, -1, 1]
 for _ in range(K):
