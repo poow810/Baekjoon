@@ -1,32 +1,32 @@
 def is_valid(nx, ny):
     return 0 <= nx < 4 and 0 <= ny < 4
- 
-def dfs(string, x, y):
- 
-    if len(str(string)) == 7:
-        result.add(string)
+
+
+def dfs(lv, x, y, string):
+
+    if lv == 6:
+        check.add(string)
         return
-     
-    for k in range(4):
-        nx = x + dx[k]
-        ny = y + dy[k]
- 
+    
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+
         if not is_valid(nx, ny):
             continue
-        
-        dfs(string + str(mp[nx][ny]), nx, ny)
- 
+
+        dfs(lv + 1, nx, ny, string+mp[nx][ny])
+
 
 T = int(input())
 for t in range(T):
-    mp = [list(map(int, input().split())) for _ in range(4)]
- 
+    mp = [list(map(str, input().split())) for _ in range(4)]
+    check = set()
     dx = [-1, 1, 0, 0]
     dy = [0, 0, -1, 1]
-    result = set()
- 
+
     for i in range(4):
         for j in range(4):
-            dfs(str(mp[i][j]), i, j)
-     
-    print(f"#{t+1}", len(result))
+            dfs(0, i, j, mp[i][j])
+
+    print(f"#{t+1}", len(check))
