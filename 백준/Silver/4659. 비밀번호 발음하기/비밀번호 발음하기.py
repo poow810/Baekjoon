@@ -1,67 +1,44 @@
 import sys
 
-check = ['a', 'e', 'i', 'o', 'u']
-
-
-def solution(string):
-    
-    # 첫 번째 조건
-    flag = False
-    for i in string:
-        if i in check:
-            flag = True
-    
-    if not flag:
-        return False
-
-    # 두 번째 조건
-    mo = False
-    ja = False
-    count = 0
-    for i in string:
-        if i in check:
-            if mo:
-                count += 1
-                if count == 3:
-                    return False
-                continue
-            else:
-                count = 1
-                mo = True
-                ja = False
-        elif i not in check:
-            if ja:
-                count += 1
-                if count == 3:
-                    return False
-                continue
-            else:
-                count = 1
-                ja = True
-                mo = False
-
-    # 세 번째 조건
-    temp = ""
-    for i in string:
-        if temp == i:
-            if temp == "e" or temp == "o":
-                continue
-            else:
-                return False
-        temp = i
-    
-    return True
+a = ['a', 'e', 'i', 'o', 'u']
 
 while True:
-
     string = sys.stdin.readline().strip()
-
-    if string == "end":
+    
+    if string == 'end':
         break
+    
+    flag = True
+    
+    if 'a' in string or 'e' in string or 'i' in string or 'o' in string or 'u' in string:
+        pre = ''
+        count = 0
+        for i in string:
+            if pre == i:
+                if pre+i == 'ee' or pre+i == 'oo':
+                    continue
+                else:
+                    flag = False
+            
+            if pre in a and i in a:
+                count += 1
+            elif pre not in a and i not in a:
+                count += 1
+            elif pre in a and i not in a:
+                count = 1
+            elif pre not in a and i in a:
+                count = 1
 
-    answer = solution(string)
+            if count == 3:
+                flag = False
+            
+            pre = i
 
-    if answer:
-        print(f"<{string}> is acceptable.")
     else:
-        print(f"<{string}> is not acceptable.")
+        flag = False
+
+    if flag:
+        print(f'<{string}> is acceptable.')
+    else:
+        print(f'<{string}> is not acceptable.')
+
