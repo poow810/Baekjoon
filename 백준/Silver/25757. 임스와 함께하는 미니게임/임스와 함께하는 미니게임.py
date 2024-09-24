@@ -1,15 +1,17 @@
 import sys
 
-N, type = map(str, sys.stdin.readline().split())
-dic = dict()
-for i in range(int(N)):
-    string = sys.stdin.readline().strip()
-    if string not in dic:
-        dic[string] = 1
+N, game = map(str, sys.stdin.readline().split())
+N = int(N)
+check = set()
+for _ in range(N):
+    name = sys.stdin.readline().strip()
+    check.add(name)
 
-if type == 'Y':
-    print(len(dic))
-elif type == 'F':
-    print(len(dic)//2)
+if game == 'Y':
+    ans = 1
+elif game == 'F':
+    ans = 2
 else:
-    print(len(dic)//3)
+    ans = 3
+
+print(len(check)//ans)
