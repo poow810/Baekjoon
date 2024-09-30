@@ -1,16 +1,15 @@
 import sys
-from heapq import heappush, heappop
+from heapq import heappop, heappush
 
-N = int(sys.stdin.readline().rstrip())
-hq = []
-
-for _ in range(N):
-    a = int(sys.stdin.readline().rstrip())
-    if a == 0:
-        if not hq:
+N = int(sys.stdin.readline().strip())
+lst = []
+for i in range(N):
+    x = int(sys.stdin.readline().strip())
+    if x == 0:
+        if not lst:
             print(0)
         else:
-            print(heappop(hq))
-    else:
-        heappush(hq, a)
+            print(heappop(lst))
 
+    else:
+        heappush(lst, x)
