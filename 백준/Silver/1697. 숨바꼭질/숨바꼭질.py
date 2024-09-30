@@ -1,31 +1,35 @@
 import sys
 from collections import deque
 
-def bfs(cur):
+def bfs(start):
 
     queue = deque()
-    queue.append(cur)
-    visited[cur] = 1
+    queue.append(start)
+    mp[start] = 1
 
     while queue:
-        cur = queue.popleft()
+        node = queue.popleft()
 
-        if cur == K:
-            return visited[cur] - 1
-
+        if node == K:
+            return
+        
         for i in range(3):
             if i == 0:
-                next = cur - 1
+                next = node - 1
             elif i == 1:
-                next = cur + 1
+                next = node + 1
             else:
-                next = cur * 2
-
+                next = node * 2
+            
             if 0 <= next <= 100000:
-                if visited[next] == 0:
-                    visited[next] = visited[cur] + 1
+                if mp[next] == 0:
+                    mp[next] = mp[node] + 1
                     queue.append(next)
 
+         
+
 N, K = map(int, sys.stdin.readline().split())
-visited = [0] * 100001
-print(bfs(N))
+
+mp = [0] * (100001)
+bfs(N)
+print(mp[K]-1)
