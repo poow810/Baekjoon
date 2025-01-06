@@ -1,35 +1,42 @@
 import sys
-from heapq import heappop, heappush
 
-def prim(start):
+def find_set(x):
+    if x == parents[x]:
+        return parents[x]
     
-    hq = []
-    visited = [0] * N
-    sum_weight = 0
-    heappush(hq, (0, start))
+    parents[x] = find_set(parents[x])
+    return parents[x]
 
-    while hq:
-        weight, node = heappop(hq)
 
-        if visited[node] == 1:
-            continue
+def union(x, y):
+    x = find_set(x)
+    y = find_set(y)
+    
+    if x == y:
+        return
+    
+    if x < y:
+        parents[y] = x
+    else:
+        parents[x] = y
 
-        visited[node] = 1
-        sum_weight += weight
-
-        for i in range(N):
-            if not visited[i] and graph[node][i] != 0:
-                heappush(hq, (graph[node][i], i))
-
-    return sum_weight 
 
 N = int(sys.stdin.readline().strip())
 M = int(sys.stdin.readline().strip())
-graph = [[0] * N for _ in range(N)]
+
+edges = []
 
 for _ in range(M):
     a, b, w = map(int, sys.stdin.readline().split())
-    graph[a-1][b-1] = w
-    graph[b-1][a-1] = w
+    edges.append([a-1, b-1, w])
 
-print(prim(0))
+edges.sort(key=lambda x: x[2])
+parents = [i for i in range(N)]
+
+result = 0
+for a, b, w in edges:
+    if find_set(a) != find_set(b):
+        union(a, b)
+        result += w
+
+print(result)
