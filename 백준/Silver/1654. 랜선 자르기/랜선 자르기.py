@@ -1,25 +1,26 @@
 import sys
 
-K, N = map(int, sys.stdin.readline().split())
-cm = [int(sys.stdin.readline()) for _ in range(K)]
+N, M = map(int, sys.stdin.readline().split())
 
-max_cm = 0
-min_cm = 1
-for i in cm:
-    if i > max_cm:
-        max_cm = i
+lst = []
+for _ in range(N):
+    lst.append(int(sys.stdin.readline().strip()))
 
-while min_cm <= max_cm:
-    
+max_length = max(lst)
+min_length = 1
+
+while min_length <= max_length:
+
+    mid = (min_length + max_length) // 2
     count = 0
-    mid = (min_cm + max_cm) // 2
-    for j in cm:
-        count += j // mid
+
+    for num in lst:
+        count += num // mid
     
-    if count < N:
-        max_cm = mid - 1
+    if count >= M:
+        min_length = mid + 1
     else:
-        min_cm = mid + 1
-    
-print(min_cm-1)
+        max_length = mid - 1
+
+print(min_length-1)
 
