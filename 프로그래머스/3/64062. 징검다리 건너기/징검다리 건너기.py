@@ -1,22 +1,31 @@
 from collections import deque
 
 def solution(stones, k):
-    min_max = float('inf')
-    dq = deque()
-
-    for i in range(len(stones)):
-        # 현재 창 범위에서 벗어난 인덱스 제거
-        while dq and dq[0] <= i - k:
-            dq.popleft()
+    left = 1
+    right = max(stones) + 1
+    
+    while left < right - 1:
+        mid = (left + right) // 2
+        count = 0
+        flag = True
         
-        # 새로운 원소가 기존보다 크면 기존 원소 제거 (최댓값 유지)
-        while dq and stones[dq[-1]] < stones[i]:
-            dq.pop()
-
-        dq.append(i)
-
-        # 창 크기가 k가 되었을 때부터 최댓값 후보 갱신
-        if i >= k - 1:
-            min_max = min(min_max, stones[dq[0]])
-
-    return min_max
+        for stone in stones:
+            if stone < mid:
+                count += 1
+            
+            else:
+                count = 0
+                
+            if count == k:
+                flag = False
+                break
+        
+        if flag:
+            left = mid
+        
+        else:
+            right = mid
+    
+    return left
+        
+            
